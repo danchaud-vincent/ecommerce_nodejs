@@ -1,4 +1,4 @@
-import { buildApp } from './app/app.js';
+import { buildApp } from './app/app';
 
 const app = buildApp();
 
