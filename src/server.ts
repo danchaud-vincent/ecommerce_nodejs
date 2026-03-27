@@ -1,7 +1,11 @@
 import { buildApp } from './app/app';
+import { config } from 'dotenv';
+
+config();
+const PORT = process.env.PORT || 3000;
 
 const app = buildApp();
 
-app.listen(3000, () => {
-  console.log('Listening on http://localhost:3000');
+app.listen(PORT, () => {
+  console.log(`Listening on http://localhost:${PORT}`);
 });
