@@ -1,0 +1,25 @@
+{
+  "name": "ecommerce-api",
+  "version": "1.0.0",
+  "description": "API RESTful pour un site e-commerce avec Node.js, TypeScript et MySQL",
+  "main": "src/app.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danchaud-vincent/ecommerce_nodejs.git"
+  },
+  "keywords": [
+    "ecommerce",
+    "api",
+    "nodejs",
+    "typescript"
+  ],
+  "author": "Vincent D",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danchaud-vincent/ecommerce_nodejs/issues"
+  },
+  "homepage": "https://github.com/danchaud-vincent/ecommerce_nodejs#readme"
+}
