@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/danchaud-vincent/ecommerce_nodejs#readme",
   "dependencies": {
+    "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "handlebars": "^4.7.9",
@@ -32,6 +33,7 @@
     "sequelize": "^6.37.8"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.6",
     "@types/node": "^25.5.0",
