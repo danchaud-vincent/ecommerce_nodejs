@@ -13,8 +13,8 @@ function getEnv(key: string): string {
 }
 
 export const dbConfig = {
-  username: getEnv('USERNAME'),
-  password: getEnv('PASSWORD'),
-  database: getEnv('DATABASE'),
-  host: getEnv('HOST'),
+  username: getEnv('DB_USER'),
+  password: getEnv('DB_PASSWORD'),
+  database: getEnv('DB_NAME'),
+  host: getEnv('DB_HOST'),
 };
