@@ -1,4 +1,4 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes, Model, type Optional } from 'sequelize';
 import { sequelize } from '../database/db';
 
 interface ProductAttributes {
@@ -9,8 +9,13 @@ interface ProductAttributes {
   imageUrl: string;
 }
 
+export interface ProductCreationAttributes extends Optional<
+  ProductAttributes,
+  'id'
+> {}
+
 export class Product
-  extends Model<ProductAttributes>
+  extends Model<ProductAttributes, ProductCreationAttributes>
   implements ProductAttributes
 {
   id!: number;

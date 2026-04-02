@@ -11,4 +11,6 @@ const productController = new ProductController(productService);
 
 productRoutes.get('/products', productController.getProducts);
 
+productRoutes.post('/products', productController.addProduct);
+
 export default productRoutes;
