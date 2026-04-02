@@ -36,4 +36,21 @@ export class ProductController {
       res.status(500).json({ message: err.message });
     }
   };
+
+  updateProduct = async (req: Request, res: Response) => {
+    const productId = Number(req.params.id);
+    const { name, price, description, imageUrl } = req.body;
+
+    const updatedProduct = await this.productService.updateProduct(productId, {
+      name: name,
+      price: price,
+      description: description,
+      imageUrl: imageUrl,
+    });
+
+    res.status(200).json({
+      message: 'Product updated successfully',
+      data: updatedProduct,
+    });
+  };
 }

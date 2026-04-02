@@ -14,6 +14,8 @@ export interface ProductCreationAttributes extends Omit<
   'id'
 > {}
 
+export type ProductUpdateAttributes = Partial<Omit<ProductAttributes, 'id'>>;
+
 export class Product extends Model<
   ProductAttributes,
   ProductCreationAttributes

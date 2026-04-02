@@ -1,4 +1,8 @@
-import { Product, type ProductCreationAttributes } from '../models/product';
+import {
+  Product,
+  type ProductCreationAttributes,
+  type ProductUpdateAttributes,
+} from '../models/product';
 
 export class ProductRepository {
   async findAll(): Promise<Product[]> {
@@ -7,5 +11,18 @@ export class ProductRepository {
 
   async create(productData: ProductCreationAttributes): Promise<Product> {
     return Product.create(productData);
+  }
+
+  async update(
+    productId: number,
+    updatedData: ProductUpdateAttributes,
+  ): Promise<Product> {
+    const product = await Product.findByPk(productId);
+
+    if (!product) {
+      throw new Error(`Product with id ${productId} not found`);
+    }
+
+    return product.update(updatedData);
   }
 }

@@ -1,4 +1,8 @@
-import { Product, type ProductCreationAttributes } from '../models/product';
+import {
+  Product,
+  type ProductCreationAttributes,
+  type ProductUpdateAttributes,
+} from '../models/product';
 import { ProductRepository } from '../repositories/productRepository';
 
 export class ProductService {
@@ -10,5 +14,12 @@ export class ProductService {
 
   addProduct(productData: ProductCreationAttributes): Promise<Product> {
     return this.productRepository.create(productData);
+  }
+
+  updateProduct(
+    productId: number,
+    updatedData: ProductUpdateAttributes,
+  ): Promise<Product> {
+    return this.productRepository.update(productId, updatedData);
   }
 }

@@ -13,4 +13,6 @@ productRoutes.get('/products', productController.getProducts);
 
 productRoutes.post('/products', productController.addProduct);
 
+productRoutes.put('/products/:id', productController.updateProduct);
+
 export default productRoutes;
