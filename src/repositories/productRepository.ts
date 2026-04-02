@@ -25,4 +25,14 @@ export class ProductRepository {
 
     return product.update(updatedData);
   }
+
+  async delete(productId: number): Promise<void> {
+    const product = await Product.findByPk(productId);
+
+    if (!product) {
+      throw new Error(`Product with id ${productId} not found`);
+    }
+
+    return product.destroy();
+  }
 }

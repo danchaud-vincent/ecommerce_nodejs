@@ -53,4 +53,14 @@ export class ProductController {
       data: updatedProduct,
     });
   };
+
+  deleteProduct = async (req: Request, res: Response) => {
+    const productId = Number(req.params.id);
+
+    await this.productService.deleteProduct(productId);
+
+    res.status(200).json({
+      message: 'Product deleted successfully',
+    });
+  };
 }

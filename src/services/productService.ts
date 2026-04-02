@@ -22,4 +22,8 @@ export class ProductService {
   ): Promise<Product> {
     return this.productRepository.update(productId, updatedData);
   }
+
+  deleteProduct(productId: number): Promise<void> {
+    return this.productRepository.delete(productId);
+  }
 }
