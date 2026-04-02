@@ -9,21 +9,15 @@ interface ProductAttributes {
   imageUrl: string;
 }
 
-export interface ProductCreationAttributes extends Optional<
+export interface ProductCreationAttributes extends Omit<
   ProductAttributes,
   'id'
 > {}
 
-export class Product
-  extends Model<ProductAttributes, ProductCreationAttributes>
-  implements ProductAttributes
-{
-  id!: number;
-  name!: string;
-  price!: number;
-  description!: string;
-  imageUrl!: string;
-}
+export class Product extends Model<
+  ProductAttributes,
+  ProductCreationAttributes
+> {}
 
 Product.init(
   {
@@ -50,5 +44,5 @@ Product.init(
       allowNull: false,
     },
   },
-  { sequelize, tableName: 'products' },
+  { sequelize, tableName: 'products', timestamps: true },
 );

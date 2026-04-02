@@ -27,7 +27,12 @@ export class ProductController {
         imageUrl,
       });
 
-      res.status(201).json({ message: 'Product added successfully', product });
+      res
+        .status(201)
+        .json({
+          message: 'Product added successfully',
+          data: product.toJSON(),
+        });
     } catch (err: any) {
       console.error(err);
       res.status(500).json({ message: err.message });
