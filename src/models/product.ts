@@ -1,5 +1,6 @@
-import { DataTypes, Model, type Optional } from 'sequelize';
-import { sequelize } from '../database/db';
+import { DataTypes, Model } from 'sequelize';
+import { sequelize } from '../database/sequelize';
+import { Stock } from './stock';
 
 interface ProductAttributes {
   id: number;
@@ -19,7 +20,13 @@ export type ProductUpdateAttributes = Partial<Omit<ProductAttributes, 'id'>>;
 export class Product extends Model<
   ProductAttributes,
   ProductCreationAttributes
-> {}
+> {
+  declare id: number;
+  declare name: string;
+  declare price: number;
+  declare description: string;
+  declare imageUrl: string;
+}
 
 Product.init(
   {
@@ -48,3 +55,7 @@ Product.init(
   },
   { sequelize, tableName: 'products', timestamps: true },
 );
+
+Product.addHook('afterCreate', async (product: Product) => {
+  await Stock.create({ productId: product.id, quantity: 0 });
+});
