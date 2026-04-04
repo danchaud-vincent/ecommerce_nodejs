@@ -8,7 +8,6 @@ export class ProductController {
   getProducts = async (req: Request, res: Response) => {
     try {
       const products = await this.productService.getProducts();
-
       res.status(200).json(products);
     } catch (err: any) {
       console.error(err);
