@@ -5,8 +5,14 @@ export class CartController {
   constructor(private cartService: CartService) {}
 
   getCart = async (req: Request, res: Response) => {
-    const cart = await this.cartService.getCart();
-    res.status(200).json(cart);
+    try {
+      const cartId = req.body.cartId;
+      const cart = await this.cartService.getCart(cartId);
+      res.status(200).json(cart);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Failed to get cart' });
+    }
   };
 
   addProductToCart = async (req: Request, res: Response) => {

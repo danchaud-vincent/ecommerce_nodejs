@@ -1,13 +1,16 @@
 import express from 'express';
+import { CartController } from '../../controllers/cartController';
+import { CartService } from '../../services/cartServices';
+import { CartRepository } from '../../repositories/cartRepository';
 
 const cartRoutes = express.Router();
 
-cartRoutes.get('/cart', (req, res) => {
-  res.send('Get user cart');
-});
+const cartRepository = new CartRepository();
+const cartService = new CartService(cartRepository);
+const cartController = new CartController(cartService);
 
-cartRoutes.post('/cart/items', (req, res) => {
-  res.send('Add item to cart');
-});
+cartRoutes.get('/cart', cartController.getCart);
+
+cartRoutes.post('/cart/items', cartController.addProductToCart);
 
 export default cartRoutes;
