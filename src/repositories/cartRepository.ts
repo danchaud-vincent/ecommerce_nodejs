@@ -9,7 +9,9 @@ export class CartRepository {
   async getCartByUserId(userId: number): Promise<Cart | null> {
     return Cart.findOne({
       where: { userId },
-      include: [{ model: Product, as: 'items' }],
+      include: [
+        { model: Product, as: 'items', through: { attributes: ['quantity'] } },
+      ],
     });
   }
 
