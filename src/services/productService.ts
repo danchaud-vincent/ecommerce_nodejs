@@ -8,22 +8,44 @@ import { ProductRepository } from '../repositories/productRepository';
 export class ProductService {
   constructor(private productRepository: ProductRepository) {}
 
-  getProducts(): Promise<Product[]> {
+  async getProducts(): Promise<Product[]> {
     return this.productRepository.findAll();
   }
 
-  addProduct(productData: ProductCreationAttributes): Promise<Product> {
+  async addProduct(productData: ProductCreationAttributes): Promise<Product> {
     return this.productRepository.create(productData);
   }
 
-  updateProduct(
+  async updateProduct(
     productId: number,
     updatedData: ProductUpdateAttributes,
   ): Promise<Product> {
-    return this.productRepository.update(productId, updatedData);
+    try {
+      const product = await this.productRepository.findByID(productId);
+
+      if (!product) {
+        throw new Error(`Product with id ${productId} not found`);
+      }
+
+      return this.productRepository.update(product, updatedData);
+    } catch (error: any) {
+      throw new Error(`Failed to update product: ${error.message}`);
+    }
   }
 
-  deleteProduct(productId: number): Promise<void> {
-    return this.productRepository.delete(productId);
+  async deleteProduct(productId: number): Promise<void> {
+    try {
+      const product = await this.productRepository.findByID(productId);
+
+      if (!product) {
+        throw new Error(`Product with id ${productId} not found`);
+      }
+
+      return this.productRepository.delete(product);
+    } catch (error) {
+      throw new Error(
+        `Failed to delete product: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
   }
 }

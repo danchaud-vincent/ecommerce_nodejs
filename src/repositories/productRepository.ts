@@ -5,6 +5,10 @@ import {
 } from '../models/product';
 
 export class ProductRepository {
+  async findByID(productId: number): Promise<Product | null> {
+    return Product.findByPk(productId);
+  }
+
   async findAll(): Promise<Product[]> {
     return Product.findAll();
   }
@@ -14,25 +18,13 @@ export class ProductRepository {
   }
 
   async update(
-    productId: number,
+    product: Product,
     updatedData: ProductUpdateAttributes,
   ): Promise<Product> {
-    const product = await Product.findByPk(productId);
-
-    if (!product) {
-      throw new Error(`Product with id ${productId} not found`);
-    }
-
     return product.update(updatedData);
   }
 
-  async delete(productId: number): Promise<void> {
-    const product = await Product.findByPk(productId);
-
-    if (!product) {
-      throw new Error(`Product with id ${productId} not found`);
-    }
-
+  async delete(product: Product): Promise<void> {
     return product.destroy();
   }
 }
