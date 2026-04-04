@@ -2,9 +2,14 @@ import { Cart } from '../models/cart';
 import { CartProduct } from '../models/cartProduct';
 import { Product } from '../models/product';
 import { Stock } from '../models/stock';
+import { User } from '../models/user';
 import { sequelize } from './sequelize';
 
 function setDatabaseAssociations() {
+  // Association between User and Cart
+  User.hasOne(Cart, { foreignKey: 'userId', as: 'cart' });
+  Cart.belongsTo(User, { foreignKey: 'userId', as: 'owner' });
+
   // Association between product and Stock
   Product.hasOne(Stock, { foreignKey: 'productId', as: 'inventory' });
   Stock.belongsTo(Product, { foreignKey: 'productId', as: 'parentProduct' });
@@ -36,14 +41,20 @@ export const initDB = async () => {
     console.log('All models were synchronized successfully.');
 
     // Test
+    const user = await User.create({
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      password: 'securepassword',
+    });
+
+    const cart = await Cart.create({ userId: user.id });
+
     const product = await Product.create({
       name: 'Test Product',
       price: 9.99,
       description: 'A test product',
       imageUrl: 'https://example.com/image.jpg',
     });
-
-    const cart = await Cart.create();
 
     await cart.addItem(product, { through: { quantity: 2 } });
 

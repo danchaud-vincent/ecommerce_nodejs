@@ -8,7 +8,12 @@ interface UserAttributes {
   password: string;
 }
 
-export class User extends Model<UserAttributes> implements UserAttributes {
+interface UserCreationAttributes extends Omit<UserAttributes, 'id'> {}
+
+export class User
+  extends Model<UserAttributes, UserCreationAttributes>
+  implements UserAttributes
+{
   declare id: number;
   declare name: string;
   declare email: string;
