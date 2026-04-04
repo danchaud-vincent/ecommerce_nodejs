@@ -6,8 +6,13 @@ export class CartController {
 
   getCart = async (req: Request, res: Response) => {
     try {
-      const cartId = req.body.cartId;
-      const cart = await this.cartService.getCart(cartId);
+      const userId = req.user?.id;
+
+      if (!userId) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+
+      const cart = await this.cartService.getCartByUserId(userId);
       res.status(200).json(cart);
     } catch (error) {
       console.error(error);
