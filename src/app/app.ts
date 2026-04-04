@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import productRoutes from '../routes/products';
+import cartRoutes from '../routes/user/cart';
 
 export function buildApp() {
   const app = express();
@@ -10,6 +11,7 @@ export function buildApp() {
 
   // add routes
   app.use(productRoutes);
+  app.use(cartRoutes);
 
   return app;
 }
