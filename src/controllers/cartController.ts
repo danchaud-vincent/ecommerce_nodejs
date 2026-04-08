@@ -21,7 +21,14 @@ export class CartController {
   };
 
   addProductToCart = async (req: Request, res: Response) => {
-    const result = await this.cartService.addProductToCart();
+    const userId = req.user?.id;
+    const productId = req.body.productId;
+
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const result = await this.cartService.addProductToCart(productId, userId);
     res.status(200).json(result);
   };
 }
