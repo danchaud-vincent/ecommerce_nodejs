@@ -1,13 +1,8 @@
 import type { Cart } from '../models/cart';
-import { CartProduct } from '../models/cartProduct';
-import type { CartProductRepository } from '../repositories/cartProductRepository';
 import type { CartRepository } from '../repositories/cartRepository';
 
 export class CartService {
-  constructor(
-    private cartRepository: CartRepository,
-    private cartProductRepository: CartProductRepository,
-  ) {}
+  constructor(private cartRepository: CartRepository) {}
 
   async getCartByUserId(userId: number): Promise<Cart> {
     let cart = await this.cartRepository.getCartByUserId(userId);
@@ -22,28 +17,19 @@ export class CartService {
     productId: number,
     userId: number,
     quantity = 1,
-  ): Promise<CartProduct> {
+  ): Promise<void> {
     try {
       const cart = await this.getCartByUserId(userId);
 
-      const existingProduct = await this.cartProductRepository.findProduct(
+      const existingProductInCart = await this.cartRepository.getProductInCart(
         cart.id,
         productId,
       );
 
-      if (existingProduct) {
-        const updateQuantity = existingProduct.quantity + quantity;
-
-        return this.cartProductRepository.updateProductQuantity(
-          existingProduct,
-          updateQuantity,
-        );
+      if (existingProductInCart) {
+        await this.cartRepository.incrementProductQuantity(cart.id, productId);
       } else {
-        return this.cartProductRepository.addProduct(
-          cart.id,
-          productId,
-          quantity,
-        );
+        await this.cartRepository.addProductToCart(cart.id, productId);
       }
     } catch (error) {
       throw new Error(`Failed to add product with ${productId} to cart.`);
