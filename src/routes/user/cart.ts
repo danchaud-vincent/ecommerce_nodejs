@@ -13,4 +13,6 @@ cartRoutes.get('/cart', cartController.getCart);
 
 cartRoutes.post('/cart/items', cartController.addProductToCart);
 
+cartRoutes.delete('/cart/items/:id', cartController.removeProductFromCart);
+
 export default cartRoutes;

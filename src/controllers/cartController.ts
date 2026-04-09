@@ -31,4 +31,19 @@ export class CartController {
     const result = await this.cartService.addProductToCart(productId, userId);
     res.status(200).json(result);
   };
+
+  removeProductFromCart = async (req: Request, res: Response) => {
+    const userId = req.user?.id;
+    const productId = Number(req.params.id);
+
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const result = await this.cartService.deleteProductFromCart(
+      productId,
+      userId,
+    );
+    res.status(200).json(result);
+  };
 }

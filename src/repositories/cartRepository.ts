@@ -37,6 +37,18 @@ export class CartRepository {
     });
   }
 
+  async removeProductFromCart(
+    cartId: number,
+    productId: number,
+  ): Promise<void> {
+    await CartProduct.destroy({
+      where: {
+        cartId: cartId,
+        productId: productId,
+      },
+    });
+  }
+
   async incrementProductQuantity(
     cartId: number,
     productId: number,

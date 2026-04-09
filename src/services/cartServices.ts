@@ -47,4 +47,31 @@ export class CartService {
       throw new Error(`Failed to add product with ID:${productId} to cart.`);
     }
   }
+
+  async deleteProductFromCart(
+    productId: number,
+    userId: number,
+  ): Promise<{ message: string }> {
+    try {
+      const cart = await this.getCartByUserId(userId);
+
+      const existingProductInCart = await this.cartRepository.getProductInCart(
+        cart.id,
+        productId,
+      );
+
+      if (!existingProductInCart) {
+        throw new Error('Product not found in cart.');
+      }
+
+      await this.cartRepository.removeProductFromCart(cart.id, productId);
+
+      return { message: `Product with id ${productId} deleted.` };
+    } catch (error: any) {
+      throw new Error(
+        'Failed to remove the product from the cart:',
+        error.message,
+      );
+    }
+  }
 }
