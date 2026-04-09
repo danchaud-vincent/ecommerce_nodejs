@@ -23,12 +23,17 @@ export class CartController {
   addProductToCart = async (req: Request, res: Response) => {
     const userId = req.user?.id;
     const productId = req.body.productId;
+    const quantity = req.body.quantity;
 
     if (!userId) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    const result = await this.cartService.addProductToCart(productId, userId);
+    const result = await this.cartService.updateProductQuantityInCart(
+      productId,
+      userId,
+      quantity,
+    );
     res.status(200).json(result);
   };
 

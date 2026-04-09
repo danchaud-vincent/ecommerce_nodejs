@@ -49,6 +49,22 @@ export class CartRepository {
     });
   }
 
+  async updateProductQuantity(
+    cartId: number,
+    productId: number,
+    quantity: number,
+  ): Promise<void> {
+    await CartProduct.update(
+      { quantity: quantity },
+      {
+        where: {
+          cartId: cartId,
+          productId: productId,
+        },
+      },
+    );
+  }
+
   async incrementProductQuantity(
     cartId: number,
     productId: number,

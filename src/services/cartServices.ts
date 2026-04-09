@@ -1,8 +1,12 @@
 import type { Cart } from '../models/cart';
 import type { CartRepository } from '../repositories/cartRepository';
+import type { ProductRepository } from '../repositories/productRepository';
 
 export class CartService {
-  constructor(private cartRepository: CartRepository) {}
+  constructor(
+    private cartRepository: CartRepository,
+    private productRepository: ProductRepository,
+  ) {}
 
   async getCartByUserId(userId: number): Promise<Cart> {
     let cart = await this.cartRepository.getCartByUserId(userId);
@@ -45,6 +49,59 @@ export class CartService {
       return updatedCart;
     } catch (error) {
       throw new Error(`Failed to add product with ID:${productId} to cart.`);
+    }
+  }
+
+  async updateProductQuantityInCart(
+    productId: number,
+    userId: number,
+    quantity: number,
+  ): Promise<Cart> {
+    try {
+      const product = await this.productRepository.findByID(productId);
+
+      if (!product) {
+        throw new Error(`Product ${productId} does not exist in the catalog.`);
+      }
+
+      const cart = await this.getCartByUserId(userId);
+      const existingProductInCart = await this.cartRepository.getProductInCart(
+        cart.id,
+        productId,
+      );
+
+      if (!existingProductInCart) {
+        if (quantity > 0) {
+          await this.cartRepository.addProductToCart(
+            cart.id,
+            productId,
+            quantity,
+          );
+        } else {
+          throw new Error(
+            'Cannot decrement a product that is not in the cart.',
+          );
+        }
+      } else {
+        const newQuantity = existingProductInCart.quantity + quantity;
+
+        if (newQuantity > 0) {
+          await this.cartRepository.updateProductQuantity(
+            cart.id,
+            productId,
+            quantity,
+          );
+        } else {
+          await this.cartRepository.removeProductFromCart(cart.id, productId);
+        }
+      }
+
+      const updatedCart = this.getCartByUserId(userId);
+
+      return updatedCart;
+    } catch (error: any) {
+      console.error(error.message);
+      throw new Error(`Failed to update the quantity -> ${error.message}`);
     }
   }
 
