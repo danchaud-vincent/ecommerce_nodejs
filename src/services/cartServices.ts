@@ -17,42 +17,7 @@ export class CartService {
     return cart;
   }
 
-  async addProductToCart(
-    productId: number,
-    userId: number,
-    quantity = 1,
-  ): Promise<Cart> {
-    try {
-      const cart = await this.getCartByUserId(userId);
-
-      const existingProductInCart = await this.cartRepository.getProductInCart(
-        cart.id,
-        productId,
-      );
-
-      if (existingProductInCart) {
-        await this.cartRepository.incrementProductQuantity(
-          cart.id,
-          productId,
-          quantity,
-        );
-      } else {
-        await this.cartRepository.addProductToCart(
-          cart.id,
-          productId,
-          quantity,
-        );
-      }
-
-      const updatedCart = await this.getCartByUserId(userId);
-
-      return updatedCart;
-    } catch (error) {
-      throw new Error(`Failed to add product with ID:${productId} to cart.`);
-    }
-  }
-
-  async updateProductQuantityInCart(
+  async updateProductQuantity(
     productId: number,
     userId: number,
     quantity: number,

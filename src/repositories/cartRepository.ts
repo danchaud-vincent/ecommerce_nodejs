@@ -64,15 +64,4 @@ export class CartRepository {
       },
     );
   }
-
-  async incrementProductQuantity(
-    cartId: number,
-    productId: number,
-    quantity: number,
-  ): Promise<void> {
-    await CartProduct.increment('quantity', {
-      by: quantity,
-      where: { productId: productId, cartId: cartId },
-    });
-  }
 }

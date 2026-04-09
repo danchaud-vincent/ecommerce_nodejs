@@ -29,7 +29,7 @@ export class CartController {
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    const result = await this.cartService.updateProductQuantityInCart(
+    const result = await this.cartService.updateProductQuantity(
       productId,
       userId,
       quantity,
