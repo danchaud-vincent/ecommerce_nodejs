@@ -28,20 +28,22 @@ export class CartRepository {
   async addProductToCart(
     cartId: number,
     productId: number,
+    quantity: number,
   ): Promise<CartProduct> {
     return CartProduct.create({
       cartId: cartId,
       productId: productId,
-      quantity: 1,
+      quantity: quantity,
     });
   }
 
   async incrementProductQuantity(
     cartId: number,
     productId: number,
+    quantity: number,
   ): Promise<void> {
-    CartProduct.increment('quantity', {
-      by: 1,
+    await CartProduct.increment('quantity', {
+      by: quantity,
       where: { productId: productId, cartId: cartId },
     });
   }

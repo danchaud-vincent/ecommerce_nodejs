@@ -17,7 +17,7 @@ export class CartService {
     productId: number,
     userId: number,
     quantity = 1,
-  ): Promise<void> {
+  ): Promise<Cart> {
     try {
       const cart = await this.getCartByUserId(userId);
 
@@ -27,12 +27,24 @@ export class CartService {
       );
 
       if (existingProductInCart) {
-        await this.cartRepository.incrementProductQuantity(cart.id, productId);
+        await this.cartRepository.incrementProductQuantity(
+          cart.id,
+          productId,
+          quantity,
+        );
       } else {
-        await this.cartRepository.addProductToCart(cart.id, productId);
+        await this.cartRepository.addProductToCart(
+          cart.id,
+          productId,
+          quantity,
+        );
       }
+
+      const updatedCart = await this.getCartByUserId(userId);
+
+      return updatedCart;
     } catch (error) {
-      throw new Error(`Failed to add product with ${productId} to cart.`);
+      throw new Error(`Failed to add product with ID:${productId} to cart.`);
     }
   }
 }
