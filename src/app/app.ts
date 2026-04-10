@@ -29,9 +29,9 @@ export function buildApp() {
   });
 
   // add routes
-  app.use(authRoutes);
-  app.use(productRoutes);
-  app.use(cartRoutes);
+  app.use('/api/auth', authRoutes);
+  app.use('/api', productRoutes);
+  app.use('/api', cartRoutes);
 
   return app;
 }
