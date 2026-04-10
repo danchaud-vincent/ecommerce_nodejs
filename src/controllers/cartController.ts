@@ -6,8 +6,13 @@ export class CartController {
 
   getCart = async (req: Request, res: Response) => {
     try {
-      const cartId = req.body.cartId;
-      const cart = await this.cartService.getCart(cartId);
+      const userId = req.user?.id;
+
+      if (!userId) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+
+      const cart = await this.cartService.getCartByUserId(userId);
       res.status(200).json(cart);
     } catch (error) {
       console.error(error);
@@ -16,7 +21,34 @@ export class CartController {
   };
 
   addProductToCart = async (req: Request, res: Response) => {
-    const result = await this.cartService.addProductToCart();
+    const userId = req.user?.id;
+    const productId = req.body.productId;
+    const quantity = req.body.quantity;
+
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const result = await this.cartService.updateProductQuantity(
+      productId,
+      userId,
+      quantity,
+    );
+    res.status(200).json(result);
+  };
+
+  removeProductFromCart = async (req: Request, res: Response) => {
+    const userId = req.user?.id;
+    const productId = Number(req.params.id);
+
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const result = await this.cartService.deleteProductFromCart(
+      productId,
+      userId,
+    );
     res.status(200).json(result);
   };
 }

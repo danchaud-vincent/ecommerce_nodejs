@@ -8,8 +8,13 @@ interface CartProductAttributes {
   quantity: number;
 }
 
+interface CartProductCreationAttributes extends Omit<
+  CartProductAttributes,
+  'id'
+> {}
+
 export class CartProduct
-  extends Model<CartProductAttributes>
+  extends Model<CartProductAttributes, CartProductCreationAttributes>
   implements CartProductAttributes
 {
   declare id: number;
