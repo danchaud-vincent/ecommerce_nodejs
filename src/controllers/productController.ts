@@ -5,6 +5,23 @@ import { ProductService } from '../services/productService';
 export class ProductController {
   constructor(private productService: ProductService) {}
 
+  getProductDetails = async (req: Request, res: Response) => {
+    try {
+      const productId: number = Number(req.params.id);
+
+      if (!Number.isInteger(productId) || productId <= 0) {
+        return res.status(400).json({ message: 'Invalid product id.' });
+      }
+
+      const product = await this.productService.getProductById(productId);
+
+      res.status(200).json(product);
+    } catch (err: any) {
+      console.error(err);
+      res.status(500).json({ message: err.message });
+    }
+  };
+
   getProducts = async (req: Request, res: Response) => {
     try {
       const products = await this.productService.getProducts();

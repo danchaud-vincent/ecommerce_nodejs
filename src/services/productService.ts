@@ -8,6 +8,16 @@ import { ProductRepository } from '../repositories/productRepository';
 export class ProductService {
   constructor(private productRepository: ProductRepository) {}
 
+  async getProductById(productId: number): Promise<Product> {
+    const product = await this.productRepository.findByID(productId);
+
+    if (!product) {
+      throw new Error(`Product with ID ${productId} not found.`);
+    }
+
+    return product;
+  }
+
   async getProducts(): Promise<Product[]> {
     return this.productRepository.findAll();
   }

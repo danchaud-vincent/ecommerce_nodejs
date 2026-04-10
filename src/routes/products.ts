@@ -9,6 +9,8 @@ const productRepository = new ProductRepository();
 const productService = new ProductService(productRepository);
 const productController = new ProductController(productService);
 
+productRoutes.get('/products/:id', productController.getProductDetails);
+
 productRoutes.get('/products', productController.getProducts);
 
 productRoutes.post('/products', productController.addProduct);
