@@ -3,6 +3,7 @@ import cors from 'cors';
 import productRoutes from '../routes/products';
 import cartRoutes from '../routes/user/cart';
 import { User } from '../models/user';
+import authRoutes from '../routes/auth';
 
 interface RequestWithUser extends Request {
   user?: User;
@@ -28,6 +29,7 @@ export function buildApp() {
   });
 
   // add routes
+  app.use(authRoutes);
   app.use(productRoutes);
   app.use(cartRoutes);
 
