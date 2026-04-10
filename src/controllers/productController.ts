@@ -54,34 +54,47 @@ export class ProductController {
   };
 
   updateProduct = async (req: Request, res: Response) => {
-    const productId = Number(req.params.id);
+    try {
+      const productId = Number(req.params.id);
 
-    if (!Number.isInteger(productId) || productId <= 0) {
-      return res.status(400).json({ message: 'Invalid product id.' });
+      if (!Number.isInteger(productId) || productId <= 0) {
+        return res.status(400).json({ message: 'Invalid product id.' });
+      }
+
+      const { name, price, description, imageUrl } = req.body;
+
+      const updatedProduct = await this.productService.updateProduct(
+        productId,
+        {
+          name: name,
+          price: price,
+          description: description,
+          imageUrl: imageUrl,
+        },
+      );
+
+      res.status(200).json({
+        message: 'Product updated successfully',
+        data: updatedProduct,
+      });
+    } catch (err: any) {
+      console.error(err);
+      res.status(500).json({ message: err.message });
     }
-
-    const { name, price, description, imageUrl } = req.body;
-
-    const updatedProduct = await this.productService.updateProduct(productId, {
-      name: name,
-      price: price,
-      description: description,
-      imageUrl: imageUrl,
-    });
-
-    res.status(200).json({
-      message: 'Product updated successfully',
-      data: updatedProduct,
-    });
   };
 
   deleteProduct = async (req: Request, res: Response) => {
-    const productId = Number(req.params.id);
+    try {
+      const productId = Number(req.params.id);
 
-    await this.productService.deleteProduct(productId);
+      await this.productService.deleteProduct(productId);
 
-    res.status(200).json({
-      message: 'Product deleted successfully',
-    });
+      res.status(200).json({
+        message: 'Product deleted successfully',
+      });
+    } catch (err: any) {
+      console.error(err);
+      res.status(500).json({ message: err.message });
+    }
   };
 }

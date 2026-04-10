@@ -30,32 +30,22 @@ export class ProductService {
     productId: number,
     updatedData: ProductUpdateAttributes,
   ): Promise<Product> {
-    try {
-      const product = await this.productRepository.findByID(productId);
+    const product = await this.productRepository.findByID(productId);
 
-      if (!product) {
-        throw new Error(`Product with id ${productId} not found`);
-      }
-
-      return this.productRepository.update(product, updatedData);
-    } catch (error: any) {
-      throw new Error(`Failed to update product: ${error.message}`);
+    if (!product) {
+      throw new Error(`Product with id ${productId} not found`);
     }
+
+    return this.productRepository.update(product, updatedData);
   }
 
   async deleteProduct(productId: number): Promise<void> {
-    try {
-      const product = await this.productRepository.findByID(productId);
+    const product = await this.productRepository.findByID(productId);
 
-      if (!product) {
-        throw new Error(`Product with id ${productId} not found`);
-      }
-
-      return this.productRepository.delete(product);
-    } catch (error) {
-      throw new Error(
-        `Failed to delete product: ${error instanceof Error ? error.message : String(error)}`,
-      );
+    if (!product) {
+      throw new Error(`Product with id ${productId} not found`);
     }
+
+    return this.productRepository.delete(product);
   }
 }
