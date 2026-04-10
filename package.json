@@ -25,6 +25,8 @@
   },
   "homepage": "https://github.com/danchaud-vincent/ecommerce_nodejs#readme",
   "dependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
