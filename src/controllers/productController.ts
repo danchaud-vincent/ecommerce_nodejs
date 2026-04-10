@@ -55,6 +55,11 @@ export class ProductController {
 
   updateProduct = async (req: Request, res: Response) => {
     const productId = Number(req.params.id);
+
+    if (!Number.isInteger(productId) || productId <= 0) {
+      return res.status(400).json({ message: 'Invalid product id.' });
+    }
+
     const { name, price, description, imageUrl } = req.body;
 
     const updatedProduct = await this.productService.updateProduct(productId, {
