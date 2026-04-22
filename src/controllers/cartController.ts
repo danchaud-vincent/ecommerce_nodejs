@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import type { CartService } from '../services/cartServices';
+import type { CartService } from '../services/cartService';
 
 export class CartController {
   constructor(private cartService: CartService) {}

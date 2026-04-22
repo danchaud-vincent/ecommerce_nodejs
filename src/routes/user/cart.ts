@@ -1,6 +1,6 @@
 import express from 'express';
 import { CartController } from '../../controllers/cartController';
-import { CartService } from '../../services/cartServices';
+import { CartService } from '../../services/cartService';
 import { CartRepository } from '../../repositories/cartRepository';
 import { ProductRepository } from '../../repositories/productRepository';
 
