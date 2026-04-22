@@ -4,7 +4,9 @@ import type { UserRepository } from '../repositories/userRepository';
 import {
   generateAccessToken,
   generateRefreshToken,
+  verifyRefreshToken,
 } from '../utils/jwt/jwtUtils';
+import type { User } from '../models/user';
 
 export class AuthService {
   constructor(private userRepository: UserRepository) {}
@@ -39,5 +41,27 @@ export class AuthService {
       accessToken,
       refreshToken,
     };
+  }
+
+  async refresh(refreshToken: string): Promise<string> {
+    try {
+      const payload = verifyRefreshToken(refreshToken);
+
+      const user = await this.userRepository.findByEmail(payload.email);
+
+      if (!user) {
+        throw new Error('Unauthorized');
+      }
+
+      const accessToken: string = generateAccessToken({
+        email: user.email,
+        password: user.password,
+      });
+
+      return accessToken;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Forbidden');
+    }
   }
 }

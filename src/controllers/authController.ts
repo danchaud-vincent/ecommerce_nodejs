@@ -47,11 +47,19 @@ export class AuthController {
   };
 
   refresh = async (req: Request, res: Response) => {
-    const refreshToken = req.cookies;
+    try {
+      const refreshToken = req.cookies.refreshToken;
 
-    console.log(refreshToken);
+      if (!refreshToken) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
 
-    return res.status(200).json({ message: refreshToken });
+      const accessToken = await this.authService.refresh(refreshToken);
+
+      return res.status(200).json({ accessToken });
+    } catch (err: any) {
+      return res.status(403).json({ message: err.message });
+    }
   };
 
   logout = async (req: Request, res: Response) => {
