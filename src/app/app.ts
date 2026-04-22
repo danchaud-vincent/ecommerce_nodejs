@@ -1,9 +1,11 @@
 import express, { type Request } from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
+
 import productRoutes from '../routes/products';
 import cartRoutes from '../routes/user/cart';
-import { User } from '../models/user';
 import authRoutes from '../routes/auth';
+import { User } from '../models/user';
 import { verifyJWT } from '../middleware/authMiddleware';
 
 interface RequestWithUser extends Request {
@@ -15,6 +17,7 @@ export function buildApp() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cors());
+  app.use(cookieParser());
 
   // mock middleware
   app.use(async (req: RequestWithUser, res, next) => {

@@ -19,7 +19,7 @@ export class AuthController {
       // Create a secure cookie with refresh token
       res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
-        secure: true,
+        secure: false,
         sameSite: 'strict',
         maxAge: parseInt(jwtConfig.jwtRefreshExpiration) * 24 * 60 * 60 * 1000,
       });
@@ -47,7 +47,11 @@ export class AuthController {
   };
 
   refresh = async (req: Request, res: Response) => {
-    return res.status(200).json({ message: 'Refreshed' });
+    const refreshToken = req.cookies;
+
+    console.log(refreshToken);
+
+    return res.status(200).json({ message: refreshToken });
   };
 
   logout = async (req: Request, res: Response) => {
