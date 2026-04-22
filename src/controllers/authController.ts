@@ -17,7 +17,7 @@ export class AuthController {
         await this.authService.login(loginRequest);
 
       // Create a secure cookie with refresh token
-      res.cookie('jwt', refreshToken, {
+      res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         secure: true,
         sameSite: 'strict',
