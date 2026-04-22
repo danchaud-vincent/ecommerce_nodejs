@@ -23,4 +23,12 @@ export class AuthController {
 
     return res.status(200).json({ message: 'Registered' });
   };
+
+  refresh = async (req: Request, res: Response) => {
+    return res.status(200).json({ message: 'Refreshed' });
+  };
+
+  logout = async (req: Request, res: Response) => {
+    return res.status(200).json({ message: 'Logout' });
+  };
 }
