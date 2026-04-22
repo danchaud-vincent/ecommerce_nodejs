@@ -3,7 +3,6 @@ import { sequelize } from '../database/sequelize';
 
 interface UserAttributes {
   id: number;
-  name: string;
   email: string;
   password: string;
 }
@@ -15,7 +14,6 @@ export class User
   implements UserAttributes
 {
   declare id: number;
-  declare name: string;
   declare email: string;
   declare password: string;
 }
@@ -27,10 +25,6 @@ User.init(
       primaryKey: true,
       allowNull: false,
       autoIncrement: true,
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
     email: {
       type: DataTypes.STRING,

@@ -42,7 +42,6 @@ export const initDB = async () => {
 
     // Test
     const user = await User.create({
-      name: 'John Doe',
       email: 'john.doe@example.com',
       password: 'securepassword',
     });

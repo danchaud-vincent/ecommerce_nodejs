@@ -24,7 +24,7 @@ export function buildApp() {
     }
 
     req.user = user; // Attach user to request
-    console.log(`Mock middleware: User ${user.name} attached to request`);
+    console.log(`Mock middleware: User ${user.email} attached to request`);
     next();
   });
 
