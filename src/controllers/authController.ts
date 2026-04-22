@@ -14,9 +14,13 @@ export class AuthController {
   };
 
   register = async (req: Request, res: Response) => {
-    const { name, email, password } = req.body;
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
     const registerRequest = {
-      name: name,
       email: email,
       password: password,
     };
