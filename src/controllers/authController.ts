@@ -5,13 +5,21 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   login = async (req: Request, res: Response) => {
-    const { email, password } = req.body;
-    const loginRequest = {
-      email: email,
-      password: password,
-    };
+    try {
+      const { email, password } = req.body;
+      const loginRequest = {
+        email: email,
+        password: password,
+      };
 
-    return res.status(200).json({ message: 'Logged In' });
+      const { accessToken, refreshToken } =
+        await this.authService.login(loginRequest);
+
+      return res.status(200).json({ accessToken, refreshToken });
+    } catch (err: any) {
+      console.error(err.message);
+      return res.status(500).json({ message: `Error: ${err.message}` });
+    }
   };
 
   register = async (req: Request, res: Response) => {
