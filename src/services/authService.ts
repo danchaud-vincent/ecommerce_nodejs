@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 
-import type { UserRepository } from '../repositories/authRepository';
+import type { UserRepository } from '../repositories/userRepository';
 import {
   generateAccessToken,
   generateRefreshToken,

@@ -1,7 +1,7 @@
 import express from 'express';
 import { AuthController } from '../controllers/authController';
 import { AuthService } from '../services/authService';
-import { UserRepository } from '../repositories/authRepository';
+import { UserRepository } from '../repositories/userRepository';
 
 const authRoutes = express.Router();
 
