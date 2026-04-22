@@ -13,6 +13,8 @@ function getEnv(key: string): string {
 }
 
 export const jwtConfig = {
-  secret: getEnv('JWT_SECRET') as string,
-  expiresIn: getEnv('JWT_EXPIRES_IN') as string,
+  jwtSecret: getEnv('JWT_SECRET') as string,
+  jwtRefreshSecret: getEnv('JWT_REFRESH_SECRET') as string,
+  jwtExpiration: getEnv('JWT_EXPIRATION') as string,
+  jwtRefreshExpiration: getEnv('JWT_REFRESH_EXPIRATION') as string,
 };
