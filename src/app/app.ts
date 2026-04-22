@@ -4,6 +4,7 @@ import productRoutes from '../routes/products';
 import cartRoutes from '../routes/user/cart';
 import { User } from '../models/user';
 import authRoutes from '../routes/auth';
+import { verifyJWT } from '../middleware/authMiddleware';
 
 interface RequestWithUser extends Request {
   user?: User;
@@ -30,7 +31,7 @@ export function buildApp() {
 
   // add routes
   app.use('/api/auth', authRoutes);
-  app.use('/api', productRoutes);
+  app.use('/api', verifyJWT, productRoutes);
   app.use('/api', cartRoutes);
 
   return app;
