@@ -6,16 +6,20 @@ import {
   generateRefreshToken,
   verifyRefreshToken,
 } from '../utils/jwt/jwtUtils';
-import type { User, UserCreationAttributes } from '../models/user';
+import type { UserCreationAttributes } from '../models/user';
 import type { Response } from 'express';
+import { jwtConfig } from '../config/jwt';
 
 export class AuthService {
   constructor(private userRepository: UserRepository) {}
 
-  async login(loginRequest: {
-    email: string;
-    password: string;
-  }): Promise<{ accessToken: string; refreshToken: string }> {
+  async login(
+    res: Response,
+    loginRequest: {
+      email: string;
+      password: string;
+    },
+  ): Promise<{ accessToken: string; refreshToken: string }> {
     const user = await this.userRepository.findByEmail(loginRequest.email);
 
     if (!user) {
@@ -36,6 +40,14 @@ export class AuthService {
 
     // save the refresh token in db
     await this.userRepository.setRefreshToken(user, refreshToken);
+
+    // Create a secure cookie with refresh token
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: parseInt(jwtConfig.jwtRefreshExpiration) * 24 * 60 * 60 * 1000,
+    });
 
     return {
       accessToken,

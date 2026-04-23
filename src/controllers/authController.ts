@@ -1,6 +1,5 @@
 import type { Request, Response } from 'express';
 import type { AuthService } from '../services/authService';
-import { jwtConfig } from '../config/jwt';
 
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -13,16 +12,10 @@ export class AuthController {
         password: password,
       };
 
-      const { accessToken, refreshToken } =
-        await this.authService.login(loginRequest);
-
-      // Create a secure cookie with refresh token
-      res.cookie('refreshToken', refreshToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: 'strict',
-        maxAge: parseInt(jwtConfig.jwtRefreshExpiration) * 24 * 60 * 60 * 1000,
-      });
+      const { accessToken, refreshToken } = await this.authService.login(
+        res,
+        loginRequest,
+      );
 
       return res.status(200).json({ accessToken });
     } catch (err: any) {
