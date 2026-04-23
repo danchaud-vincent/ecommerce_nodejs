@@ -10,4 +10,8 @@ export class UserRepository {
   async create(userData: UserCreationAttributes): Promise<User> {
     return User.create(userData);
   }
+
+  async setRefreshToken(user: User, refreshToken: string): Promise<User> {
+    return user.update({ token: refreshToken });
+  }
 }

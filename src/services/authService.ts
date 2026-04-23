@@ -34,8 +34,7 @@ export class AuthService {
     const refreshToken: string = generateRefreshToken(loginRequest);
 
     // save the refresh token in db
-    user.token = refreshToken;
-    user.save();
+    await this.userRepository.setRefreshToken(user, refreshToken);
 
     return {
       accessToken,
