@@ -8,7 +8,10 @@ interface UserAttributes {
   token: string;
 }
 
-interface UserCreationAttributes extends Omit<UserAttributes, 'id' | 'token'> {}
+export interface UserCreationAttributes extends Omit<
+  UserAttributes,
+  'id' | 'token'
+> {}
 
 export class User
   extends Model<UserAttributes, UserCreationAttributes>
