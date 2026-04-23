@@ -6,7 +6,7 @@ import {
   generateRefreshToken,
   verifyRefreshToken,
 } from '../utils/jwt/jwtUtils';
-import type { User } from '../models/user';
+import type { User, UserCreationAttributes } from '../models/user';
 
 export class AuthService {
   constructor(private userRepository: UserRepository) {}
@@ -41,6 +41,30 @@ export class AuthService {
       accessToken,
       refreshToken,
     };
+  }
+
+  async register(registerRequest: {
+    email: string;
+    password: string;
+  }): Promise<User> {
+    const userFound = await this.userRepository.findByEmail(
+      registerRequest.email,
+    );
+
+    if (userFound) {
+      throw new Error(
+        `User with email ${registerRequest.email} already exits.`,
+      );
+    }
+
+    const passwordCrypted = await bcrypt.hash(registerRequest.password, 12);
+
+    const userData: UserCreationAttributes = {
+      email: registerRequest.email,
+      password: passwordCrypted,
+    };
+
+    return this.userRepository.create(userData);
   }
 
   async refresh(refreshToken: string): Promise<string> {
