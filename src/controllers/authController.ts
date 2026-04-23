@@ -32,18 +32,27 @@ export class AuthController {
   };
 
   register = async (req: Request, res: Response) => {
-    const { email, password } = req.body;
+    try {
+      const { email, password } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ message: 'All fields are required' });
+      if (!email || !password) {
+        return res.status(400).json({ message: 'All fields are required' });
+      }
+
+      const registerRequest = {
+        email: email,
+        password: password,
+      };
+
+      const user = await this.authService.register(registerRequest);
+
+      return res.status(201).json({ message: 'Registered successfully!' });
+    } catch (err: any) {
+      console.log(err);
+      return res
+        .status(500)
+        .json({ message: `Registration failed: ${err.message}` });
     }
-
-    const registerRequest = {
-      email: email,
-      password: password,
-    };
-
-    return res.status(200).json({ message: 'Registered' });
   };
 
   refresh = async (req: Request, res: Response) => {
