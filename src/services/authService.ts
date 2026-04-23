@@ -46,7 +46,7 @@ export class AuthService {
   async register(registerRequest: {
     email: string;
     password: string;
-  }): Promise<User> {
+  }): Promise<void> {
     const userFound = await this.userRepository.findByEmail(
       registerRequest.email,
     );
@@ -64,7 +64,7 @@ export class AuthService {
       password: passwordCrypted,
     };
 
-    return this.userRepository.create(userData);
+    await this.userRepository.create(userData);
   }
 
   async refresh(refreshToken: string): Promise<string> {

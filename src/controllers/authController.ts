@@ -44,7 +44,7 @@ export class AuthController {
         password: password,
       };
 
-      const user = await this.authService.register(registerRequest);
+      await this.authService.register(registerRequest);
 
       return res.status(201).json({ message: 'Registered successfully!' });
     } catch (err: any) {
