@@ -7,6 +7,7 @@ import {
   verifyRefreshToken,
 } from '../utils/jwt/jwtUtils';
 import type { User, UserCreationAttributes } from '../models/user';
+import type { Response } from 'express';
 
 export class AuthService {
   constructor(private userRepository: UserRepository) {}
@@ -86,5 +87,13 @@ export class AuthService {
       console.error(error);
       throw new Error('Forbidden');
     }
+  }
+
+  async logout(res: Response): Promise<void> {
+    res.clearCookie('refreshToken', {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    });
   }
 }
