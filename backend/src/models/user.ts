@@ -3,21 +3,24 @@ import { sequelize } from '../database/sequelize';
 
 interface UserAttributes {
   id: number;
-  name: string;
   email: string;
   password: string;
+  token: string;
 }
 
-interface UserCreationAttributes extends Omit<UserAttributes, 'id'> {}
+export interface UserCreationAttributes extends Omit<
+  UserAttributes,
+  'id' | 'token'
+> {}
 
 export class User
   extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes
 {
   declare id: number;
-  declare name: string;
   declare email: string;
   declare password: string;
+  declare token: string;
 }
 
 User.init(
@@ -28,10 +31,6 @@ User.init(
       allowNull: false,
       autoIncrement: true,
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -40,6 +39,10 @@ User.init(
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    token: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   },
   {

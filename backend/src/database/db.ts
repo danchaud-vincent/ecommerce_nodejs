@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import { Cart } from '../models/cart';
 import { CartProduct } from '../models/cartProduct';
 import { Product } from '../models/product';
@@ -41,10 +42,11 @@ export const initDB = async () => {
     console.log('All models were synchronized successfully.');
 
     // Test
+    const passwordCrypted = await bcrypt.hash('securepassword', 12);
+
     const user = await User.create({
-      name: 'John Doe',
       email: 'john.doe@example.com',
-      password: 'securepassword',
+      password: passwordCrypted,
     });
 
     const cart = await Cart.create({ userId: user.id });
